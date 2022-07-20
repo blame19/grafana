@@ -103,6 +103,14 @@ type UpdateCorrelationCommand struct {
 	Description string `json:"description"`
 }
 
+// UpdateCorrelationCommand is the command for updating a correlation
+type GetCorrelationQuery struct {
+	// UID of the correlation to be deleted.
+	UID       string `json:"-"`
+	SourceUID string `json:"-"`
+	OrgId     int64  `json:"-"`
+}
+
 type DeleteCorrelationsBySourceUIDCommand struct {
 	SourceUID string
 }
