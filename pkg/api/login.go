@@ -214,8 +214,13 @@ func (hs *HTTPServer) LoginPost(c *models.ReqContext) response.Response {
 	authModule = authQuery.AuthModule
 	if err != nil {
 		resp = response.Error(401, "Invalid username or password", err)
-		if errors.Is(err, login.ErrInvalidCredentials) || errors.Is(err, login.ErrTooManyLoginAttempts) || errors.Is(err,
+		if errors.Is(err, login.ErrInvalidCredentials) || errors.Is(err,
 			user.ErrUserNotFound) {
+			return resp
+		}
+
+		if errors.Is(err, login.ErrTooManyLoginAttempts) {
+			resp = response.Error(401, "Too many consecutive incorrect login attempts for user. Login for user temporarily blocked.", err)
 			return resp
 		}
 
